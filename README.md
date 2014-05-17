@@ -2,9 +2,11 @@ Working notes.
 
 - create Python 2.7 app on opensource
 - add cron cartridge
-- install requests and twitter-applicatio-only-auth modules
+- install requests and twitter-application-only-auth modules
+- create twitter app and get API keys 
 
 > python app-deployments/current/repo/tweetmeter.py 
+'''json
 {
     "contributors":null,
     "coordinates":null,
@@ -114,3 +116,4 @@ Working notes.
         "verified":false
     }
 }
+'''
