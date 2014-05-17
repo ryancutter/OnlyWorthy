@@ -1,4 +1,10 @@
-[tweetmeter-ryancutter.rhcloud.com 53777e09e0b8cd3e19000103]\> python app-deployments/current/repo/tweetmeter.py 
+Working notes.
+
+- create Python 2.7 app on opensource
+- add cron cartridge
+- install requests and twitter-applicatio-only-auth modules
+
+> python app-deployments/current/repo/tweetmeter.py 
 {
     "contributors":null,
     "coordinates":null,
