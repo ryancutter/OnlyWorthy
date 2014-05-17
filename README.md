@@ -6,7 +6,7 @@ Working notes.
 - create twitter app and get API keys 
 
 > python app-deployments/current/repo/tweetmeter.py 
-'''json
+```json
 {
     "contributors":null,
     "coordinates":null,
@@ -116,4 +116,4 @@ Working notes.
         "verified":false
     }
 }
-'''
+```
