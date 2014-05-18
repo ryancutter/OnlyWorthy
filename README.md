@@ -8,9 +8,10 @@ Working notes.
 - create twitter app and get API keys 
 - to monitor user, add row to config.csv
 
-> python tweetmeter.py 
+$ python tweetmeter.py 
 
 Results for @zerohedge (Limit 5 tweets):
+
 133 Household net worth of college grads with student debt: $8,700; net worth of high school grads without student debt: $10,900: Pew
 
 113 Deutsche Bank Scrambles To Raise Capital: Will Sell €8 Billion In Stock At Up To 30% Discount http://t.co/kjzLIeIJmj
