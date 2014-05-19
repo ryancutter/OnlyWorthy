@@ -1,2 +1,5 @@
-API_KEY = 'putkeyhere'
-API_SECRET = 'putsecrethere'
+CONSUMER_KEY = ''
+CONSUMER_SECRET = ''
+
+ACCESS_TOKEN = ''
+ACCESS_SECRET = ''
