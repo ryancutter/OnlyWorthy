@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-onlyworth.py
+onlyworthy.py
 ~~~~~~~~~~~~~
 
 Weekend project testing the possibility of metering tweets so you only see the best
