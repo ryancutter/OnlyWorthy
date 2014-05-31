@@ -11,6 +11,7 @@ from sys import argv
 from getopt import getopt, GetoptError
 from csv import reader
 from datetime import datetime, timedelta
+from logging import basicConfig, getLogger, INFO
 
 import twitter_apps
 import tweepy
@@ -18,6 +19,14 @@ import tweepy
 def usage():
   print "usage:"
   print "  -c config file (csv file of twitter_username,desired_num_of_tweets)"
+
+def setupLogger(log, app):
+  basicConfig(level=INFO,
+              format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+              datefmt='%m-%d-%y %H:%M:%S',
+              filename=log,
+              filemode='w')
+  return getLogger(app)
 
 def get_config(config_file):
   """ read config file and return list of username/# of tweets tuples. """
@@ -40,6 +49,9 @@ def evaluate_tweets(tweets, stop_time, start_time):
   return scored_tweets
 
 def main():
+  logger = setupLogger("/tmp/onlyworthy.log", "onlyworthy.py")
+  logger.info("Starting onlyworthy.py")
+
   # parse args
   try:
     opts, args = getopt(argv[1:], "c:", ["help"])
@@ -65,17 +77,24 @@ def main():
   stop_time = now - timedelta(hours=2)
   start_time = now - timedelta(hours=26)  
 
+  logger.info("stop_time = " + str(stop_time) + ", start_time = " + str(start_time))
+
   for config in get_config(config_file):
+    logger.info("Pulling @" + config[0])
     # TODO assuming no more than 50 tweets/day. add ability to get more tweets if necessary
     tweets = twitter_api.user_timeline(screen_name=config[0], count=50, include_rts=False)
 
     scored_tweets = evaluate_tweets(tweets, stop_time, start_time)
+    logger.info("Narrowed " + str(len(tweets)) + " down to " + str(len(scored_tweets)))
 
     # retweet as appropriate 
-    #print "\nResults for @%s (Limit %s tweets):" % (config[0], config[1])
     for i in range(0, int(config[1])):
-      #print scored_tweets[i][0], scored_tweets[i][1].text
-      twitter_api.retweet(scored_tweets[i][1].id)
+      logger.info("Retweeting")
+      try:
+        twitter_api.retweet(scored_tweets[i][1].id)
+      except twitter_api.TweepError, e:
+        logger.error("Unable to send tweet - " + scored_tweets[i][1].text)
+        logger.error(e.reason)
 
 if __name__ == "__main__":
   main()
