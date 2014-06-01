@@ -12,6 +12,7 @@ from getopt import getopt, GetoptError
 from csv import reader
 from datetime import datetime, timedelta
 from logging import basicConfig, getLogger, INFO
+from time import sleep
 
 import twitter_apps
 import tweepy
@@ -89,10 +90,19 @@ def main():
 
     # retweet as appropriate 
     for i in range(0, int(config[1])):
-      logger.info("Retweeting")
+      logger.info("Retweeting " + scored_tweets[i][1].text)
       try:
-        twitter_api.retweet(scored_tweets[i][1].id)
-      except twitter_api.TweepError, e:
+        status = twitter_api.retweet(scored_tweets[i][1].id)
+
+        # sometimes the first try doesn't work, so attempt 5 more times
+        retry = 0
+        while status.retweeted == False and retry < 5:
+          logger.info("retweeted=False, sleeping then retrying")
+          sleep(5)
+          status = twitter_api.retweet(scored_tweets[i][1].id)
+          retry += 1
+          
+      except tweepy.TweepError, e:
         logger.error("Unable to send tweet - " + scored_tweets[i][1].text)
         logger.error(e.reason)
 
